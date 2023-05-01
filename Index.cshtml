@@ -1,0 +1,94 @@
+﻿@using Syncfusion.EJ2
+@model NavesPortalforWebWithCoreMvc.ViewModels.NsnSearchViewModel
+@{
+    ViewBag.PageTitle = "PMS > Porject Plan & Result";
+    ViewBag.PlatformName = "PMS";
+    ViewBag.MenuName = "Project Plan & Result";
+    ViewBag.FunctionName = "List";
+}
+
+@section SearchSection{
+    <form asp-action="Index" asp-controller="PmsProjectPlanAndResult" method="post">
+        <div class="row align-items-center m-0">
+            <div class="col">
+                <ejs-textbox id="txtSearchBox" cssClass="e-outline inputable" placeholder="Search Keyword..."></ejs-textbox>
+            </div>
+            <div class="col-auto">
+                Period
+            </div>
+            <div class="col-2">
+                <ejs-datepicker id="dpStartDate" value="@ViewBag.StartDate" value="@DateTime.Now.AddYears(-3).ToShortDateString()" format="yyyy-MM-dd" placeholder="Start Date..." cssClass="inputable"></ejs-datepicker>
+            </div>
+            <div class="col-2">
+                <ejs-datepicker id="dpEndDate" value="@ViewBag.EndDate" value="@DateTime.Now.ToShortDateString()" format="yyyy-MM-dd" placeholder="End Date..." cssClass="inputable"></ejs-datepicker>
+            </div>
+            <div class="col">
+                <button asp-controller="PmsProjectPlanAndResult" asp-action="Index" id="Search" type="submit" class="btn btn-purple btn-medium rounded-pill waves-effect waves-light">Search</button>
+            </div>
+        </div>
+    </form>
+}
+
+@section ContentsSection{
+    <div class="d-flex justify-content-between align-items-center">
+        <div class="ps-2 pageContentTitle">
+            <h3>@ViewBag.MenuName</h3>
+        </div>
+        <div class="ps-1">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <ejs-grid id="Grid" dataSource="@ViewBag.dataSource" recordClick="recordClick" dataBound="dataBound"
+                  height="510"
+                  allowMultiSorting="true"
+                  allowTextWrap="true"
+                  allowResizing="true"
+                  allowReordering="true"
+                  allowSorting="true"
+                  allowFiltering="true"
+                  allowExcelExport="true"
+                  allowPdfExport="true"
+                  allowGrouping="true"
+                  allowPaging="true"
+                  showColumnChooser="true"
+                  toolbar="@( new List<string>() { "ColumnChooser", "ExcelExport", "PdfExport", "CsvExport", "Print"})">
+                <e-grid-loadingIndicator indicatorType="Shimmer"></e-grid-loadingIndicator>
+                <e-grid-filterSettings type="CheckBox"></e-grid-filterSettings>
+                <e-grid-pagesettings pageCount="10" pageSize="15" pageSizes="@(new string[] {"10", "15", "20" , "50", "All" })"></e-grid-pagesettings>
+                <e-grid-groupSettings enableLazyLoading="true" allowReordering="true" showDropArea="true"></e-grid-groupSettings>
+                <e-grid-columns>
+                    <e-grid-column field="NO" headerText="No" customAttributes=@(new{@class="customCss"}) width="70"></e-grid-column>
+                    <e-grid-column field="PROJECT_STATUS" headerText="Project Status" customAttributes=@(new{@class="customCss"}) width="150"></e-grid-column>
+                    <e-grid-column field="PROJECT_PLAN_REPORT" headerText="Project Plan Report" customAttributes=@(new{@class="customCss"}) width="200"></e-grid-column>
+                    <e-grid-column field="PROJECT_RESULT_REPORT" headerText="Project Result Report" customAttributes=@(new{@class="customCss"}) width="250"></e-grid-column>
+                    <e-grid-column field="PROJECT ID" headerText="Project ID" customAttributes=@(new{@class="customCss"}) width="150"></e-grid-column>
+                    <e-grid-column field="PROJECT_TITLE" headerText="Project Title" customAttributes=@(new{@class="customCss"}) width="600"></e-grid-column>
+                    <e-grid-column field="PROJECT_TYPE" headerText="Project Type" customAttributes=@(new{@class="customCss"}) width="120"></e-grid-column>
+                    <e-grid-column field="TERM_OF_CONTRACT" headerText="Term of Contract" customAttributes=@(new{@class="customCss"}) width="170"></e-grid-column>
+                    <e-grid-column field="INITIAL" headerText="Initial" customAttributes=@(new{@class="customCss"}) width="120"></e-grid-column>
+                    <e-grid-column field="INTERMEDIATE" headerText="Intermediate" customAttributes=@(new{@class="customCss"}) width="120"></e-grid-column>
+                    <e-grid-column field="FINAL" headerText="Final" customAttributes=@(new{@class="customCss"}) width="120"></e-grid-column>
+                </e-grid-columns>
+            </ejs-grid>
+        </div>
+    </div>
+    <script>
+        function recordClick(args) {
+            window.location.href = "/PmsProjectPlanAndResult/Detail/" + args.rowData.PROJECT_IDX;
+        }
+
+        function dataBound() {
+            var grid = document.getElementById('Grid').ej2_instances[0];
+            grid.hideScroll();
+        }
+    </script>
+}
+
+@section Scripts{
+    <script>
+        
+    </script>
+
+}
